@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import type {UserType} from "@/components/AsyncHome.vue";
 
 interface Props {
-  user: UserType;
+  user: any;
 }
 
 defineProps<Props>()

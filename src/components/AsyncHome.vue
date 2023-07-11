@@ -1,35 +1,15 @@
 <script setup lang="ts">
-import { Octokit} from "octokit";
-import {onMounted, ref} from "vue";
 import UserCard from "@/components/UserCard.vue";
-import type {GetResponseDataTypeFromEndpointMethod} from "@octokit/types";
-
-export type UserType = GetResponseDataTypeFromEndpointMethod<
-    typeof octokit.rest.users.getByUsername
->;
-
-const octokit = new Octokit({});
-
-const getData = async () => {
-  return await octokit.rest.users.getByUsername({
-    username: "FabienVINCENT",
-  });
-};
-
-const dataUser = ref<UserType|null>(null);
+import {useFetch} from "@vueuse/core";
 
 
-onMounted(async () => {
-  const toto = (await getData()).data;
-
-  dataUser.value = toto;
-});
-
+const url = 'https://api.github.com/users/FabienVINCENT'
+const { isFetching, data } = await (useFetch(url).json())
 </script>
 
 <template>
-  <div v-if="dataUser">
-    <user-card :user="dataUser" />
+  <div v-if="!isFetching">
+    <user-card :user="data" />
   </div>
 </template>
 
