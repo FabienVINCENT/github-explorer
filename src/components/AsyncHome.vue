@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import UserCard from "@/components/UserCard.vue";
-import {useFetch} from "@vueuse/core";
+import UserCard from "@/components/UserCard/UserCard.vue";
+import SearchUser from "@/components/SearchUser.vue";
+import {ref} from "vue";
 
+const username = ref('')
 
-const url = 'https://api.github.com/users/FabienVINCENT'
-const { isFetching, data } = await (useFetch(url).json())
+const handleSelect = (usernameSelected: string) => {
+  username.value = usernameSelected
+}
 </script>
 
 <template>
-  <div v-if="!isFetching">
-    <user-card :user="data" />
+  <div>
+    <search-user @select="handleSelect"/>
+    <user-card v-if="username" :username="username" />
   </div>
 </template>
 
